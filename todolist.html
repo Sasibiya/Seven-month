@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="./lib/vue.js"></script>
+</head>
+<body>
+	<div id="todo-list-example">
+		<form v-on:submit.prevent="addNewTodo">
+			<label for="new-todo">Add a todo：</label>
+			<input v-model="newTodoText" 
+					id="new-todo" 
+					placeholder="增加一个新的待办吧~">
+			<button>Add</button>
+		</form>
+		<ul>
+			<li is="todo-item" 
+				v-for="(todo,index) in todos" 
+				v-bind:key="todo.id" 
+				v-bind:title="todo.title" 
+				v-on:remove="todos.splice(index,1)">
+			</li>
+
+		</ul>
+		
+	</div>
+
+	<template id="tmp1">
+		<li>
+			{{title}}
+			<button v-on:click="$emit('remove')">Remove</button>
+			
+		</li>
+	</template>
+
+	<script>
+
+		Vue.component('todo-item',{
+			template:'#tmp1',
+			props:['title']
+		})
+
+		var vm = new Vue({
+			el: "#todo-list-example",
+			data:{ 
+				newTodoText:'',
+				todos:[
+					{
+						id:1,
+						title:'this is the first title',
+					},
+					{
+						id:2,
+						title:'this is the second title',
+					},
+					{
+						id:3,
+						title:'this is the third title',
+					}					
+				],
+				nextTodoId:4
+			},
+			methods:{ 
+				addNewTodo:function(){
+					this.todos.push({
+						id:this.nextTodoId++,
+						title:this.newTodoText
+					})
+					this.newTodoText=''
+				}
+			}
+		})
+	</script>
+</body>
+</html>

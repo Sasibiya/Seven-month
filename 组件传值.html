@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="./lib/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<!-- <com1 v-bind:parentmsg="msg"></com1> -->
+		<com2 v-on:func="show"></com2>
+	</div>
+
+
+	<template id="tmp1">
+		<div>
+			<h1>这是子组件</h1>
+			<input type="button" name="" value="点击触发show方法" @click="myclick">
+		</div>
+
+	</template>
+
+	<script>
+
+	var com2 = {
+		template: '#tmp1',
+		methods:{
+			myclick(){
+				this.$emit('func')
+			}
+		}
+
+	}
+
+		var vm = new Vue({
+			el: "#app",
+			data:{
+
+				// msg:'这是父组件的文字'
+
+			 },
+			methods:{ 
+
+				show(){
+					console.log('这是show方法被调用了')
+				}
+
+			},
+			components:{
+
+				com2
+				// com1:{
+				// 	template:'<h1>这是com1子组件的文字----{{parentmsg}}</h1>',
+				// 	props:['parentmsg']
+					
+				// }
+			}
+		})
+	</script>
+</body>
+</html>
